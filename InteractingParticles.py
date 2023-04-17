@@ -1,13 +1,13 @@
 import time, random, math
 
-particle_nums = 10
-particle_top = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0] # 1 = occupied, 0 = empty
-particle_bottom = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+particle_top = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # 1 = occupied, 0 = empty
+particle_bottom = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+particle_nums = len(particle_top)
 
 def is_in_range(x): # check if index is in range
     return 0 <= x < particle_nums
 
-def drift_prob(q, n): # drift probabilities 
+def drift_prob(q, n): # calculate drift probabilities 
     driftLeftRate = q * (q**(2*n - 1) + q**(-2*n + 1))
     driftRightRate = (1/q) * ((1/q)**(2*n - 1) + (1/q)**(-2*n + 1))
     return driftLeftRate/(driftLeftRate + driftRightRate), driftRightRate/(driftLeftRate + driftRightRate)
@@ -23,7 +23,7 @@ def drift(t, q, n): # time (seconds), speed of drift, n
     j = 0 # bottom particle index
     while time.time() < time_end:
         # top
-        if particle_top[i] == 1: # if occupied
+        if particle_top[i] == 1: # if current particle is occupied
             left_i = i - 1 # left particle
             right_i = i + 1 # right particle
             moved = False 
@@ -40,7 +40,7 @@ def drift(t, q, n): # time (seconds), speed of drift, n
         i = (i + 1) % particle_nums # keep moving index to right
         
         # bottom
-        if particle_bottom[j] == 1: # if occupied
+        if particle_bottom[j] == 1: # if current particle is occupied
             left_j = j - 1 # left particle
             right_j = j + 1 # right particle
             moved = False 
@@ -61,4 +61,4 @@ def drift(t, q, n): # time (seconds), speed of drift, n
     print(*particle_top, sep=" ")
     print(*particle_bottom, sep=" ")
 
-drift(5, 0.5, 3)
+drift(15, 0.7, 3)
